@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.lrshuai.langchain4j</groupId>
+        <artifactId>chat</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chat-memory-stores</artifactId>
+    <description>对话记忆存储示例 - 包含内存和Redis两种实现</description>
+
+    <dependencies>
+
+        <!-- LangChain4j 核心包（AiServices、ChatMemory 等） -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+        </dependency>
+
+        <!-- Redis 客户端（用于 Redis 存储实现） -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

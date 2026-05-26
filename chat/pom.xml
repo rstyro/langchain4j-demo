@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.lrshuai.langchain4j</groupId>
+        <artifactId>langchain4j-demo</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chat</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>chat-simple</module>
+        <module>chat-memory-stores</module>
+        <module>chat-tool</module>
+    </modules>
+
+    <dependencies>
+
+        <!-- 基础公共模块（统一响应、异常处理、Lombok @Slf4j 等） -->
+        <dependency>
+            <groupId>top.lrshuai.langchain4j</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+
+        <!-- openAi 模型 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai</artifactId>
+        </dependency>
+
+        <!-- 日志 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+    </dependencies>
+</project>

@@ -36,6 +36,7 @@
     <modules>
         <module>commons</module>
         <module>hello-world</module>
+        <module>chat</module>
 
     </modules>
 
