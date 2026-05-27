@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.lrshuai.langchain4j</groupId>
+        <artifactId>chat</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chat-rag</artifactId>
+    <description>RAG 检索增强生成示例 - 包含文本加载、向量嵌入、召回查询等功能</description>
+
+    <dependencies>
+
+        <!-- LangChain4j 核心包 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+        </dependency>
+
+        <!-- 文档解析器（支持 PDF、TXT、DOCX 等文件加载） -->
+<!--        <dependency>-->
+<!--            <groupId>dev.langchain4j</groupId>-->
+<!--            <artifactId>langchain4j-document-parser-apache-pdfbox</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>dev.langchain4j</groupId>-->
+<!--            <artifactId>langchain4j-document-parser-apache-poi</artifactId>-->
+<!--        </dependency>-->
+
+
+    </dependencies>
+
+</project>

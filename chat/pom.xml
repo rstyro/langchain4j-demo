@@ -15,6 +15,7 @@
         <module>chat-simple</module>
         <module>chat-memory-stores</module>
         <module>chat-tool</module>
+        <module>chat-rag</module>
     </modules>
 
     <dependencies>
