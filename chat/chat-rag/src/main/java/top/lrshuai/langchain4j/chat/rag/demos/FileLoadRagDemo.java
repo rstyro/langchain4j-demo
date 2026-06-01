@@ -22,7 +22,7 @@ import dev.langchain4j.rag.query.transformer.QueryTransformer;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
-import top.lrshuai.langchain4j.chat.rag.consts.ConfigConst;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,16 +43,16 @@ public class FileLoadRagDemo {
 
     public static void main(String[] args) throws Exception {
         // 1. 初始化模型
-        String apiKey = System.getenv(ConfigConst.API_KEY_ENV);
+        String apiKey = System.getenv(LlmConfig.API_KEY_ENV);
         if (apiKey == null || apiKey.isBlank()) {
-            System.err.println("请先设置环境变量 " + ConfigConst.API_KEY_ENV);
+            System.err.println("请先设置环境变量 " + LlmConfig.API_KEY_ENV);
             return;
         }
 
         OpenAiChatModel chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .baseUrl(ConfigConst.BASE_URL)
-                .modelName(ConfigConst.MODEL_NAME)
+                .baseUrl(LlmConfig.LLM_BASE_URL)
+                .modelName(LlmConfig.LLM_MODEL_DEEPSEEK)
                 .temperature(0.1) // 客服场景需要更低的温度，回答更准确
                 .logRequests(true)
                 .logResponses(true)
@@ -60,8 +60,8 @@ public class FileLoadRagDemo {
 
         OpenAiEmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder()
                 .apiKey(apiKey)
-                .baseUrl(ConfigConst.BASE_URL)
-                .modelName(ConfigConst.EMBEDDING_MODEL_NAME)
+                .baseUrl(LlmConfig.LLM_BASE_URL)
+                .modelName(LlmConfig.EMBEDDING_MODEL_NAME)
                 .logRequests(true)
                 .logResponses(true)
                 .build();

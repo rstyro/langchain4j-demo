@@ -9,6 +9,7 @@ import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.output.TokenUsage;
 import lombok.extern.slf4j.Slf4j;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,23 +25,13 @@ import java.util.function.Consumer;
 @Slf4j
 public class ChatMemoryDemo {
 
-    /**
-     * LLM 服务的基础地址（火山引擎）
-     */
-    private static final String LLM_BASE_URL = "https://ark.cn-beijing.volces.com/api/coding/v3";
-
-    /**
-     * 使用的模型名称
-     */
-    private static final String LLM_MODEL_NAME = "doubao-seed-2.0-code";
-
     public static void main(String[] args) {
         // 第一步：获取并校验 API Key
-        String apiKey = System.getenv("AI_API_KEY");
+        String apiKey = System.getenv(LlmConfig.API_KEY_ENV);
         if (apiKey == null || apiKey.isBlank()) {
-            log.error("环境变量 AI_API_KEY 未配置，请在运行前设置：");
-            log.error("  Windows PowerShell: $env:AI_API_KEY=\"your-api-key\"");
-            log.error("  Linux/Mac: export AI_API_KEY=\"your-api-key\"");
+            log.error("环境变量 " + LlmConfig.API_KEY_ENV + " 未配置，请在运行前设置：");
+            log.error("  Windows PowerShell: $env:" + LlmConfig.API_KEY_ENV + "=\"your-api-key\"");
+            log.error("  Linux/Mac: export " + LlmConfig.API_KEY_ENV + "=\"your-api-key\"");
             System.exit(1);
         }
 
@@ -48,8 +39,8 @@ public class ChatMemoryDemo {
         log.info("正在初始化 LLM 模型...");
         OpenAiChatModel chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .baseUrl(LLM_BASE_URL)
-                .modelName(LLM_MODEL_NAME)
+                .baseUrl(LlmConfig.LLM_BASE_URL)
+                .modelName(LlmConfig.LLM_MODEL_DOUBAO_CODE)
                 .logRequests(true)
                 .logResponses(true)
                 .build();

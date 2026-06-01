@@ -9,7 +9,7 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.tool.ToolProvider;
 import lombok.extern.slf4j.Slf4j;
-import top.lrshuai.langchain4j.mcp.client.consts.ConfigConst;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 
 import java.util.List;
 
@@ -32,9 +32,9 @@ public class McpClientStdioDemo {
     }
 
     public static void main(String[] args) {
-        String apiKey = System.getenv(ConfigConst.API_KEY_ENV);
+        String apiKey = System.getenv(LlmConfig.API_KEY_ENV);
         if (apiKey == null || apiKey.isBlank()) {
-            log.error("请先设置环境变量 {}", ConfigConst.API_KEY_ENV);
+            log.error("请先设置环境变量 {}", LlmConfig.API_KEY_ENV);
             return;
         }
 
@@ -72,8 +72,8 @@ public class McpClientStdioDemo {
         Assistant assistant = AiServices.builder(Assistant.class)
                 .chatModel(OpenAiChatModel.builder()
                         .apiKey(apiKey)
-                        .baseUrl(ConfigConst.LLM_BASE_URL)
-                        .modelName(ConfigConst.LLM_MODEL_NAME)
+                        .baseUrl(LlmConfig.LLM_BASE_URL)
+                        .modelName(LlmConfig.LLM_MODEL_DEEPSEEK)
                         .temperature(0.7)
 //                        .logRequests(true)
                         .logResponses(true)

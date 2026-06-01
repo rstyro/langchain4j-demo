@@ -10,6 +10,7 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.output.FinishReason;
 import dev.langchain4j.model.output.TokenUsage;
 import lombok.extern.slf4j.Slf4j;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 
 import java.util.List;
 
@@ -20,23 +21,13 @@ import java.util.List;
 @Slf4j
 public class SimpleChatDemo {
 
-    /**
-     * LLM 服务的基础地址（火山引擎）
-     */
-    private static final String LLM_BASE_URL = "https://ark.cn-beijing.volces.com/api/coding/v3";
-
-    /**
-     * 使用的模型名称
-     */
-    private static final String LLM_MODEL_NAME = "deepseek-v3.2";
-
     public static void main(String[] args) {
         // 第一步：获取并校验 API Key
-        String apiKey = System.getenv("AI_API_KEY");
+        String apiKey = System.getenv(LlmConfig.API_KEY_ENV);
         if (apiKey == null || apiKey.isBlank()) {
-            log.error("环境变量 AI_API_KEY 未配置，请在运行前设置：");
-            log.error("  Windows PowerShell: $env:AI_API_KEY=\"your-api-key\"");
-            log.error("  Linux/Mac: export AI_API_KEY=\"your-api-key\"");
+            log.error("环境变量 " + LlmConfig.API_KEY_ENV + " 未配置，请在运行前设置：");
+            log.error("  Windows PowerShell: $env:" + LlmConfig.API_KEY_ENV + "=\"your-api-key\"");
+            log.error("  Linux/Mac: export " + LlmConfig.API_KEY_ENV + "=\"your-api-key\"");
             System.exit(1);
         }
 
@@ -46,9 +37,9 @@ public class SimpleChatDemo {
                 // API Key：从环境变量读取，保证安全性
                 .apiKey(apiKey)
                 // 服务地址：火山引擎豆包/DeepSeek API 的 OpenAI 兼容端点
-                .baseUrl(LLM_BASE_URL)
+                .baseUrl(LlmConfig.LLM_BASE_URL)
                 // 模型名称：指定使用的模型
-                .modelName(LLM_MODEL_NAME)
+                .modelName(LlmConfig.LLM_MODEL_DEEPSEEK)
                 .logRequests(true)   // 开启请求日志（记录发送给 LLM 的完整请求内容）
                 .logResponses(true)  // 开启响应日志（记录 LLM 返回的完整响应内容）
                 .build();

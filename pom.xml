@@ -40,6 +40,7 @@
         <module>hello-world</module>
         <module>chat</module>
         <module>mcp</module>
+        <module>spring-boot-example</module>
     </modules>
 
     <!-- 依赖声明 -->

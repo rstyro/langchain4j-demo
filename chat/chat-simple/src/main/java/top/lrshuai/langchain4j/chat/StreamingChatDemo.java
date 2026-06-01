@@ -8,6 +8,7 @@ import dev.langchain4j.model.chat.response.*;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.model.output.TokenUsage;
 import lombok.extern.slf4j.Slf4j;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -20,24 +21,18 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class StreamingChatDemo {
 
-    /**
-     * LLM 服务的基础地址（火山引擎）
-     */
-    private static final String LLM_BASE_URL = "https://ark.cn-beijing.volces.com/api/coding/v3";
-    private static final String LLM_MODEL_NAME = "doubao-seed-2.0-code";
-
     public static void main(String[] args) {
-        String apiKey = System.getenv("AI_API_KEY");
+        String apiKey = System.getenv(LlmConfig.API_KEY_ENV);
         if (apiKey == null || apiKey.isBlank()) {
-            log.error("请设置环境变量 AI_API_KEY");
+            log.error("请设置环境变量 " + LlmConfig.API_KEY_ENV);
             System.exit(1);
         }
 
         // 使用 StreamingChatModel 接口
         StreamingChatModel streamingChatModel = OpenAiStreamingChatModel.builder()
                 .apiKey(apiKey)
-                .baseUrl(LLM_BASE_URL)
-                .modelName(LLM_MODEL_NAME)
+                .baseUrl(LlmConfig.LLM_BASE_URL)
+                .modelName(LlmConfig.LLM_MODEL_DOUBAO_CODE)
                 .logRequests(true)
                 .logResponses(true)
                 .build();

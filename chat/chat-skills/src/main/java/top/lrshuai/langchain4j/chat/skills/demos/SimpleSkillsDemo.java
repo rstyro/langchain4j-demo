@@ -5,7 +5,7 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.skills.Skill;
 import dev.langchain4j.skills.Skills;
 import lombok.extern.slf4j.Slf4j;
-import top.lrshuai.langchain4j.chat.skills.consts.ConfigConst;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 import top.lrshuai.langchain4j.chat.skills.tools.CustomerSupportTools;
 import top.lrshuai.langchain4j.chat.skills.tools.OrderTools;
 
@@ -25,9 +25,9 @@ public class SimpleSkillsDemo {
     }
 
     public static void main(String[] args) {
-        String apiKey = System.getenv(ConfigConst.API_KEY_ENV);
+        String apiKey = System.getenv(LlmConfig.API_KEY_ENV);
         if (apiKey == null || apiKey.isBlank()) {
-            log.error("请先设置环境变量 {}", ConfigConst.API_KEY_ENV);
+            log.error("请先设置环境变量 {}", LlmConfig.API_KEY_ENV);
             return;
         }
 
@@ -69,8 +69,8 @@ public class SimpleSkillsDemo {
         Assistant assistant = AiServices.builder(Assistant.class)
                 .chatModel(OpenAiChatModel.builder()
                         .apiKey(apiKey)
-                        .baseUrl(ConfigConst.LLM_BASE_URL)
-                        .modelName(ConfigConst.LLM_MODEL_NAME)
+                        .baseUrl(LlmConfig.LLM_BASE_URL)
+                        .modelName(LlmConfig.LLM_MODEL_DEEPSEEK)
                         .temperature(0.3)
                         .logRequests(true)
                         .logResponses(true)

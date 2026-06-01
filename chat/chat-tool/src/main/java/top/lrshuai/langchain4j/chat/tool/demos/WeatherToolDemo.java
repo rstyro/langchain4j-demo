@@ -3,6 +3,7 @@ package top.lrshuai.langchain4j.chat.tool.demos;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
 import lombok.extern.slf4j.Slf4j;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 import top.lrshuai.langchain4j.chat.tool.tools.WeatherTool;
 
 /**
@@ -13,24 +14,21 @@ import top.lrshuai.langchain4j.chat.tool.tools.WeatherTool;
 @Slf4j
 public class WeatherToolDemo {
 
-    private static final String LLM_BASE_URL = "https://ark.cn-beijing.volces.com/api/coding/v3";
-    private static final String LLM_MODEL_NAME = "doubao-seed-2.0-pro";
-
     interface Assistant {
         String chat(String userMessage);
     }
 
     public static void main(String[] args) {
-        String apiKey = System.getenv("AI_API_KEY");
+        String apiKey = System.getenv(LlmConfig.API_KEY_ENV);
         if (apiKey == null || apiKey.isBlank()) {
-            log.error("请设置环境变量 AI_API_KEY");
+            log.error("请设置环境变量 " + LlmConfig.API_KEY_ENV);
             System.exit(1);
         }
 
         OpenAiChatModel chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .baseUrl(LLM_BASE_URL)
-                .modelName(LLM_MODEL_NAME)
+                .baseUrl(LlmConfig.LLM_BASE_URL)
+                .modelName(LlmConfig.LLM_MODEL_DOUBAO)
                 .logRequests(true)
                 .logResponses(true)
                 .build();

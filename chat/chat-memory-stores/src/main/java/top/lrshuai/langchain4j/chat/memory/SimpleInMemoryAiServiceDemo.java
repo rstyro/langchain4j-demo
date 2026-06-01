@@ -6,7 +6,7 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
 import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore;
 import lombok.extern.slf4j.Slf4j;
-import top.lrshuai.langchain4j.chat.memory.consts.ConfigConst;
+import top.lrshuai.langchain4j.common.config.LlmConfig;
 import top.lrshuai.langchain4j.chat.memory.service.AiAssistant;
 
 /**
@@ -25,8 +25,8 @@ public class SimpleInMemoryAiServiceDemo {
 
         OpenAiChatModel chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .baseUrl(ConfigConst.LLM_BASE_URL)
-                .modelName(ConfigConst.LLM_MODEL_NAME)
+                .baseUrl(LlmConfig.LLM_BASE_URL)
+                .modelName(LlmConfig.LLM_MODEL_DOUBAO)
                 .logRequests(true)
                 .logResponses(true)
                 .build();
