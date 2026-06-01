@@ -18,6 +18,7 @@ import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.rag.query.Query;
 import dev.langchain4j.rag.query.transformer.CompressingQueryTransformer;
+import dev.langchain4j.rag.query.transformer.QueryTransformer;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
@@ -92,7 +93,7 @@ public class FileLoadRagDemo {
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)
                 .maxResults(5)
-                .minScore(0.5)
+                .minScore(0.5) // 最低相似度阈值
                 .build();
 
         // 调试：测试检索器是否能找到相关文档
@@ -103,16 +104,19 @@ public class FileLoadRagDemo {
             System.out.println("===:"+testResult.textSegment().text());
         }
 
+        // 使用大模型压缩查询（解决用户查询表述模糊的问题）
+        QueryTransformer queryTransformer = new CompressingQueryTransformer(chatModel);
+
         // 6. 构建检索增强器（添加查询压缩优化，提升多轮对话检索准确性）
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
-                .queryTransformer(new CompressingQueryTransformer(chatModel)) // 压缩查询，自动结合上下文
-                .contentRetriever(contentRetriever)
+                .queryTransformer(queryTransformer) // 压缩查询，自动结合上下文
+                .contentRetriever(contentRetriever) // 内容检索
                 .build();
 
         // 7. 创建客服助手
         CustomerServiceAssistant assistant = AiServices.builder(CustomerServiceAssistant.class)
                 .chatModel(chatModel)
-                .retrievalAugmentor(retrievalAugmentor)
+                .retrievalAugmentor(retrievalAugmentor) // 使用检索增强器
                 .build();
 
         // 8. 测试客服问答
