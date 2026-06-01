@@ -1,0 +1,24 @@
+# Spring Boot 集成 LangChain4j — Tool Calling 工具调用示例
+spring:
+  application.name: sb-chat-tool
+
+# LangChain4j OpenAI Chat Model 自动配置
+langchain4j:
+  open-ai:
+    chat-model:
+      api-key: ${AI_API_KEY:}
+      base-url: https://ark.cn-beijing.volces.com/api/coding/v3
+      model-name: deepseek-v3.2
+      temperature: 0.3
+      log-requests: true
+      log-responses: true
+    streaming-chat-model:
+      api-key: ${AI_API_KEY:}
+      base-url: https://ark.cn-beijing.volces.com/api/coding/v3
+      model-name: deepseek-v3.2
+      temperature: 0.1
+      log-requests: true
+      log-responses: true
+
+server:
+  port: 8002

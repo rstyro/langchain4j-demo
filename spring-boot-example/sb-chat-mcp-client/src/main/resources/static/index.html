@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Client 聊天示例</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            max-width: 800px; margin: 0 auto;
+            background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff; padding: 24px 32px; text-align: center;
+        }
+        .header h1 { font-size: 22px; font-weight: 600; }
+        .header p { font-size: 13px; opacity: 0.85; margin-top: 6px; }
+        .body { padding: 24px 32px 32px; }
+        .info-box {
+            background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px;
+            padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #856404;
+        }
+        .info-box code {
+            background: #fceabb; padding: 2px 6px; border-radius: 4px;
+            font-family: 'Courier New', monospace; font-size: 12px;
+        }
+        .row { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-end; }
+        .row label { font-size: 13px; color: #555; display: block; margin-bottom: 4px; font-weight: 500; }
+        .row .grow { flex: 1; }
+        .row input, .row textarea {
+            width: 100%; border: 1px solid #ddd; border-radius: 8px;
+            padding: 10px 14px; font-size: 14px; outline: none; font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .row input:focus, .row textarea:focus { border-color: #667eea; }
+        .row textarea { resize: vertical; min-height: 64px; }
+        .row input { height: 44px; }
+        .buttons { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .btn {
+            flex: 1; min-width: 140px; padding: 12px 24px; border: none; border-radius: 8px;
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-send {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+        .btn-send:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
+        .btn-stream {
+            background: #fff; color: #667eea; border: 2px solid #667eea;
+        }
+        .btn-stream:hover { background: #f0f0ff; transform: translateY(-1px); }
+        .btn-stream.streaming { background: #ffe0e0; border-color: #e74c3c; color: #e74c3c; }
+        .btn-clear {
+            background: #f5f5f5; color: #666;
+        }
+        .btn-clear:hover { background: #e8e8e8; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+        .status {
+            font-size: 12px; color: #999; margin-bottom: 12px; min-height: 18px;
+        }
+        .status .dot {
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+            margin-right: 6px; vertical-align: middle;
+        }
+        .dot.idle { background: #bbb; }
+        .dot.loading { background: #f39c12; animation: pulse 1s infinite; }
+        .dot.done { background: #27ae60; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+        }
+        .response {
+            background: #f8f9fa; border-radius: 8px; padding: 16px; min-height: 120px;
+            max-height: 480px; overflow-y: auto; white-space: pre-wrap; word-break: break-word;
+            font-size: 14px; line-height: 1.7; color: #333;
+            border: 1px solid #eee;
+        }
+        .response:empty::after {
+            content: '等待 AI 回复...'; color: #ccc; font-style: italic;
+        }
+        .response.streaming::after {
+            content: ' ▌'; animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; } 50% { opacity: 0; }
+        }
+        .response .role { color: #667eea; font-weight: 600; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>MCP Client 聊天示例</h1>
+        <p>通过 HTTP 连接远程 MCP Server，调用外部工具服务</p>
+    </div>
+    <div class="body">
+        <div class="info-box">
+            使用说明：请确保 MCP Server 已启动，并设置环境变量 <code>MCP_SERVER_URL</code>（默认 <code>http://localhost:3000</code>）。
+        </div>
+
+        <div class="row">
+            <div style="width: 120px;">
+                <label for="memoryId">会话 ID</label>
+                <input type="number" id="memoryId" value="1" min="0" max="99999">
+            </div>
+            <div class="grow">
+                <label for="message">输入消息</label>
+                <textarea id="message" placeholder="请输入你的问题，例如：计算 25 + 37 等于多少？" rows="2"></textarea>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-send" id="btnSend">发送</button>
+            <button class="btn btn-stream" id="btnStream">流式发送</button>
+            <button class="btn btn-clear" id="btnClear">清空</button>
+        </div>
+
+        <div class="status" id="status">
+            <span class="dot idle"></span> 就绪
+        </div>
+        <div class="response" id="response"></div>
+    </div>
+</div>
+
+<script>
+    let abortController = null;
+    const API_BASE = 'http://localhost:8005';
+
+    function getMessage() {
+        return document.getElementById('message').value.trim();
+    }
+    function getMemoryId() {
+        return parseInt(document.getElementById('memoryId').value) || 1;
+    }
+    function setStatus(type, text) {
+        const status = document.getElementById('status');
+        status.innerHTML = `<span class="dot ${type}"></span> ${text}`;
+    }
+    function getResponseEl() {
+        return document.getElementById('response');
+    }
+
+    // 同步发送
+    async function send() {
+        const msg = getMessage();
+        if (!msg) return;
+        setLoading(true);
+        setStatus('loading', '正在请求...');
+        const el = getResponseEl();
+        el.innerHTML = '<div class="role">用户: ' + escapeHtml(msg) + '</div><div>AI: 思考中...</div>';
+
+        try {
+            const res = await fetch(API_BASE + '/mcp-client/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg, memoryId: String(getMemoryId()) })
+            });
+            const data = await res.json();
+            if (data.code === 200) {
+                el.innerHTML = '<div class="role">用户: ' + escapeHtml(msg) + '</div><div>AI: ' + escapeHtml(data.data) + '</div>';
+                setStatus('done', '请求完成');
+            } else {
+                el.innerHTML = '<div style="color:#e74c3c">错误: ' + escapeHtml(data.msg || '未知错误') + '</div>';
+                setStatus('idle', '请求失败');
+            }
+        } catch (e) {
+            el.innerHTML = '<div style="color:#e74c3c">网络错误: ' + escapeHtml(e.message) + '</div>';
+            setStatus('idle', '请求失败');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    // 流式发送
+    async function sendStream() {
+        const msg = getMessage();
+        if (!msg) return;
+        setLoading(true);
+        setStatus('loading', '正在流式请求...');
+        const el = getResponseEl();
+        el.innerHTML = '<div class="role">用户: ' + escapeHtml(msg) + '</div><div>AI: <span id="streamText"></span></div>';
+        el.classList.add('streaming');
+        abortController = new AbortController();
+        const streamEl = document.getElementById('streamText');
+
+        try {
+            const res = await fetch(API_BASE + '/mcp-client/chat/stream', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg, memoryId: String(getMemoryId()) }),
+                signal: abortController.signal
+            });
+            if (!res.ok) {
+                const errText = await res.text();
+                el.innerHTML = '<div style="color:#e74c3c">错误: HTTP ' + res.status + ' - ' + escapeHtml(errText) + '</div>';
+                setStatus('idle', '流式请求失败');
+                setLoading(false);
+                el.classList.remove('streaming');
+                return;
+            }
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+
+                // SSE 格式: "data:{\"code\":200,\"data\":\"token\"}\n\n"
+                const lines = buffer.split('\n');
+                buffer = lines.pop();  // 保留不完整的最后一行
+                for (const line of lines) {
+                    if (line.startsWith('data:')) {
+                        try {
+                            const json = JSON.parse(line.slice(5).trim());
+                            if (json.code === 200) {
+                                streamEl.textContent += json.data || '';
+                            }
+                        } catch (e) {
+                            // 忽略格式错误的 JSON
+                        }
+                        el.scrollTop = el.scrollHeight;
+                    }
+                }
+            }
+            setStatus('done', '流式请求完成');
+        } catch (e) {
+            if (e.name === 'AbortError') {
+                setStatus('idle', '已取消');
+            } else {
+                el.innerHTML += '<div style="color:#e74c3c">流错误: ' + escapeHtml(e.message) + '</div>';
+                setStatus('idle', '流式请求失败');
+            }
+        } finally {
+            el.classList.remove('streaming');
+            setLoading(false);
+            abortController = null;
+        }
+    }
+
+    function setLoading(v) {
+        document.getElementById('btnSend').disabled = v;
+        document.getElementById('btnStream').disabled = v;
+        if (v) {
+            document.getElementById('btnStream').classList.add('streaming');
+            document.getElementById('btnStream').textContent = '取消';
+        } else {
+            document.getElementById('btnStream').classList.remove('streaming');
+            document.getElementById('btnStream').textContent = '流式发送';
+        }
+    }
+
+    // 流式发送按钮：点击切换发送/取消
+    document.getElementById('btnStream').addEventListener('click', function() {
+        if (abortController) {
+            abortController.abort();
+            abortController = null;
+        } else {
+            sendStream();
+        }
+    });
+
+    // 发送按钮
+    document.getElementById('btnSend').addEventListener('click', send);
+
+    // 清空按钮
+    document.getElementById('btnClear').addEventListener('click', function() {
+        document.getElementById('message').value = '';
+        document.getElementById('memoryId').value = '1';
+        document.getElementById('response').innerHTML = '';
+        setStatus('idle', '就绪');
+    });
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Enter 发送, Ctrl+Enter 流式发送
+    document.getElementById('message').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey) {
+            e.preventDefault();
+            send();
+        }
+        if (e.key === 'Enter' && e.ctrlKey) {
+            e.preventDefault();
+            sendStream();
+        }
+    });
+</script>
+</body>
+</html>

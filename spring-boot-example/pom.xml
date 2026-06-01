@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.lrshuai.langchain4j</groupId>
+        <artifactId>langchain4j-demo</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>spring-boot-example</artifactId>
+    <packaging>pom</packaging>
+    <description>Spring Boot 集成 LangChain4j 的各个示例模块</description>
+
+    <modules>
+        <module>sb-chat-simple</module>
+        <module>sb-chat-tool</module>
+        <module>sb-chat-rag</module>
+        <module>sb-chat-mcp-client</module>
+        <module>sb-chat-mcp-server</module>
+    </modules>
+
+    <dependencies>
+
+        <!-- 基础公共模块 -->
+        <dependency>
+            <groupId>top.lrshuai.langchain4j</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+
+        <!-- springboot快速集成 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-spring-boot4-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai-spring-boot4-starter</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Web（提供 REST 端点能力） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- 测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

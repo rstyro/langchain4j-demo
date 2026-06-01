@@ -10,7 +10,6 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.tool.ToolProvider;
 import lombok.extern.slf4j.Slf4j;
 import top.lrshuai.langchain4j.common.config.LlmConfig;
-import top.lrshuai.langchain4j.mcp.client.consts.ConfigConst;
 
 /**
  * MCP 客户端 - HTTP 方式调用（远程服务模式）
