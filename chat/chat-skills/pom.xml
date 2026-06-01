@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.lrshuai.langchain4j</groupId>
+        <artifactId>chat</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chat-skills</artifactId>
+    <description>LangChain4j Skills 集成示例 - 动态工具分组、技能激活与编排</description>
+
+    <properties>
+        <langchain4j-skills.version>1.15.0-beta25</langchain4j-skills.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- LangChain4j 核心包 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+        </dependency>
+
+        <!-- LangChain4j Skills（工具分组、动态激活） -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-skills</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
