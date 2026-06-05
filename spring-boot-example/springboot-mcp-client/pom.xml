@@ -9,8 +9,15 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>sb-chat-tool</artifactId>
-    <description>Spring Boot 集成 LangChain4j — Tool Calling 工具调用示例</description>
+    <artifactId>springboot-mcp-client</artifactId>
+    <description>Spring Boot 集成 LangChain4j — MCP Client 示例，通过 HTTP 调用远程 MCP Server</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-mcp</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -20,5 +27,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

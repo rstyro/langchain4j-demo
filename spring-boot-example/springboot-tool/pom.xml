@@ -9,8 +9,8 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>sb-chat-rag</artifactId>
-    <description>Spring Boot 集成 LangChain4j — RAG 检索增强生成示例</description>
+    <artifactId>springboot-tool</artifactId>
+    <description>Spring Boot 集成 LangChain4j — Tool Calling 工具调用示例</description>
 
     <build>
         <plugins>

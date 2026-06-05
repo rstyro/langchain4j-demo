@@ -14,11 +14,13 @@
     <description>Spring Boot 集成 LangChain4j 的各个示例模块</description>
 
     <modules>
-        <module>sb-chat-simple</module>
-        <module>sb-chat-tool</module>
-        <module>sb-chat-rag</module>
-        <module>sb-chat-mcp-client</module>
-        <module>sb-chat-mcp-server</module>
+        <module>springboot-chat-simple</module>
+        <module>springboot-tool</module>
+        <module>springboot-chat-rag</module>
+        <module>springboot-mcp-server</module>
+        <module>springboot-mcp-client</module>
+        <module>sb-chat-multi-agent</module>
+        <module>springboot-agent-example</module>
     </modules>
 
     <dependencies>

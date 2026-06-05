@@ -9,18 +9,8 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>sb-chat-mcp-server</artifactId>
-    <description>Spring Boot 集成 LangChain4j — MCP Server 示例，通过 HTTP/SSE 提供工具服务</description>
-
-    <dependencies>
-        <!-- langchain4j 原生只有 STDIO，不暴露 HTTP/SSE，适合做本地子进程 MCP 服务 -->
-        <!-- 要网络可访问的 MCP 服务（HTTP/SSE）,还是使用 Spring AI MCP Server -->
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
-            <version>2.0.0-M5</version>
-        </dependency>
-    </dependencies>
+    <artifactId>springboot-chat-simple</artifactId>
+    <description>Spring Boot 集成 LangChain4j — 最简单的 REST 对话端点</description>
 
     <build>
         <plugins>
@@ -30,4 +20,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

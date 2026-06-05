@@ -1,0 +1,12 @@
+# Spring Boot 集成 LangChain4j — MCP Server 示例，通过 HTTP 提供工具服务
+spring:
+  application.name: sb-chat-mcp-server
+
+server:
+  port: 3000
+
+logging:
+  level:
+    root: INFO
+    top.lrshuai.langchain4j: DEBUG
+    dev.langchain4j: DEBUG

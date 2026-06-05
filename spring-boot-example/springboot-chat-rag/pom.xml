@@ -9,15 +9,8 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>sb-chat-mcp-client</artifactId>
-    <description>Spring Boot 集成 LangChain4j — MCP Client 示例，通过 HTTP 调用远程 MCP Server</description>
-
-    <dependencies>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-mcp</artifactId>
-        </dependency>
-    </dependencies>
+    <artifactId>springboot-chat-rag</artifactId>
+    <description>Spring Boot 集成 LangChain4j — RAG 检索增强生成示例</description>
 
     <build>
         <plugins>
@@ -27,4 +20,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
