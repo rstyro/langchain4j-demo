@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.lrshuai.langchain4j</groupId>
+        <artifactId>spring-boot-example</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>springboot-agent-example</artifactId>
+    <packaging>pom</packaging>
+    <description>Spring Boot 集成 langchain4j-agentic 的各个示例模块（由简入深）</description>
+
+    <modules>
+        <module>agent-hello-world</module>
+        <module>agent-loop</module>
+        <module>agent-parallel</module>
+        <module>agent-conditional</module>
+        <module>agent-advanced</module>
+        <module>agent-supervisor</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-agentic</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
